@@ -1,0 +1,13 @@
+{
+    "name": "saboor/school",
+    "description": "This is my personal blog",
+    "type": "faker",
+    "autoload": {
+        "psr-4": {
+            "blog\\": "app/"
+        }
+    },
+    "require": {
+        "vlucas/phpdotenv": "^5.6"
+    }
+}

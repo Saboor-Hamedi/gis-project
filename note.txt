@@ -1,0 +1,10 @@
+-- import database into docker 
+docker exec -i phpbeginner-mariadb-1  mariadb -u admin -psaboor123 school < table.sql
+
+failed to get console mode for stdin: The handle is invalid.
+```
+The code goes here... 
+docker ps 
+```
+docker-compose up --build --no-cache
+docker compose up  --build
