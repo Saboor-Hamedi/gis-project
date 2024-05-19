@@ -121,4 +121,7 @@ class Database
       return $this->executeStatement($statement, $params);
     }
   }
+  public function close(){
+   $this->pdo= null;
+  }
 }

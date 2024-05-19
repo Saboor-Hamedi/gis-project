@@ -1,1 +1,6 @@
 Options -Indexes
+RewriteEngine On
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_URI} !(\.css|\.js|\.jpg|\.jpeg|\.png|\.gif|\.flv|\.swf)$
+RewriteRule ^.*$ index.php
