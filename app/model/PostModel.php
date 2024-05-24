@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 namespace blog\model;
 
 use blog\model\src\Model;

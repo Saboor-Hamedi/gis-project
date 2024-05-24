@@ -1,5 +1,5 @@
 <?php
-
+declare(strict_types=1);
 use blog\controllers\HomeController;
 use blog\controllers\Post\PostController;
 use blog\Routes\App;

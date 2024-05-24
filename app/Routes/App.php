@@ -1,13 +1,13 @@
 <?php
-
+declare(strict_types=1);
 namespace blog\Routes;
-
 class App
 {
   protected $routes = [];
 
   public function addRoute(string $method, $route, $controller, $action = 'index')
   {
+    $route = strtolower($route);
     $this->routes[$method][$route] = ['controller' => $controller, 'action' => $action];
   }
 

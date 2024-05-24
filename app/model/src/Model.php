@@ -1,5 +1,5 @@
 <?php
-
+declare(strict_types=1);
 namespace blog\model\src;
 
 use blog\database\Database;

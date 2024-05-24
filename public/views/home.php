@@ -1,3 +1,3 @@
-<a href="/create">Create</a>
-<?php
-dd($posts);
+<?php path('layout/main'); ?>
+
+

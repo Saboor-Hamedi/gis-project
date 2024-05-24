@@ -1,7 +1,10 @@
 <?php
 
+declare(strict_types=1);
+
 namespace blog\database;
 
+use blog\exceptions\ConfigException;
 use Dotenv\Dotenv;
 use PDO;
 use PDOException;
@@ -25,7 +28,15 @@ class Database
     ];
     try {
       $this->pdo = new PDO($this->dns, $_ENV['DB_USERNAME'], $_ENV['DB_PASSWORD'], $this->options);
-    } catch (PDOException $e) {
+    } catch (ConfigException $e) {
+      switch ($e->getCode()) {
+        case ConfigException::DB_CONNECTION_ERROR:
+          echo "Connection error\n";
+          break;
+        case ConfigException::SQL_SYNTAX_ERROR:
+          echo "SQL error\n";
+          break;
+      }
     }
   }
   public function executeStatement($statement = null, $data = [])
@@ -121,7 +132,8 @@ class Database
       return $this->executeStatement($statement, $params);
     }
   }
-  public function close(){
-   $this->pdo= null;
+  public function close()
+  {
+    $this->pdo = null;
   }
 }
