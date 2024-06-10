@@ -1,0 +1,38 @@
+services:
+  blog:
+    build:
+      context: ./Docker
+      dockerfile: Dockerfile
+      args: 
+        - IMAGE_NAME=blog
+    image: blog:latest
+    ports:
+      - 3334:80
+    volumes:
+      - .:/var/www/html
+    depends_on:
+      - mariadb
+    networks:
+      - blog-net
+    environment:
+      - DB_HOST=mariadb
+      - DB_PORT=3306
+      - DB_DATABASE=${DB_DATABASE}
+      - DB_USERNAME=${DB_USERNAME}
+      - DB_PASSWORD=${DB_PASSWORD}
+  mariadb:
+    image: mariadb
+    environment:
+      - MYSQL_ROOT_PASSWORD=${DB_PASSWORD}
+      - MYSQL_DATABASE=${DB_DATABASE}
+      - MYSQL_USER=${DB_USERNAME}
+      - MYSQL_PASSWORD=${DB_PASSWORD}
+    volumes:
+      - mariadb_data:/var/lib/mysql
+    networks:
+      - blog-net
+
+volumes:
+  mariadb_data:
+networks:
+  blog-net:
