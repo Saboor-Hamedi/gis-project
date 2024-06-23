@@ -27,29 +27,29 @@ class Model
 
   public function all(?int $limit = null, int $offset = 0, ?string $orderBy = null, string $orderDirection = 'ASC')
   {
-      // Get fillable columns
-      $columns = $this->fillable;
-  
-      // Format columns
-      $columns = implode(', ', $columns);
-  
-      // Build the SQL query
-      $sql = "SELECT {$columns} FROM {$this->table}";
-  
-      // Add ORDER BY clause
-      if ($orderBy !== null) {
-          $sql .= " ORDER BY {$orderBy} {$orderDirection}";
-      }
-  
-      // Add LIMIT and OFFSET clauses
-      if ($limit !== null) {
-          $sql .= " LIMIT {$limit} OFFSET {$offset}";
-      }
-  
-      // Execute the query and return the result
-      return $this->db->all($sql);
+    // Get fillable columns
+    $columns = $this->fillable;
+
+    // Format columns
+    $columns = implode(', ', $columns);
+
+    // Build the SQL query
+    $sql = "SELECT {$columns} FROM {$this->table}";
+
+    // Add ORDER BY clause
+    if ($orderBy !== null) {
+      $sql .= " ORDER BY {$orderBy} {$orderDirection}";
+    }
+
+    // Add LIMIT and OFFSET clauses
+    if ($limit !== null) {
+      $sql .= " LIMIT {$limit} OFFSET {$offset}";
+    }
+
+    // Execute the query and return the result
+    return $this->db->all($sql);
   }
-  
+
   public function single()
   {
     $sql = "SELECT * FROM {$this->table} LIMIT 1";
@@ -60,7 +60,6 @@ class Model
     // Filter the data to include only fillable attributes
     $fillableData = $this->filterData($data, $this->fillable);
     return $this->db->insert($this->table, $fillableData);
-    
   }
   public function find($condition)
   {
@@ -74,7 +73,13 @@ class Model
   {
     return $this->db->update($this->table, $data, $condition);
   }
-
+ 
+  public function findBy($column, $value)
+  {
+    $condition = [$column => $value];
+    $cond =  $this->find($condition);
+    return $cond;
+  }
   protected function filterData($data, $allowedAttributes)
   {
 

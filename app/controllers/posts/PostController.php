@@ -5,6 +5,7 @@ namespace blog\controllers\posts;
 use blog\controllers\Controller;
 use blog\model\PostModel;
 use blog\services\auth\Auth;
+use blog\services\Html\InputUtilized;
 use blog\services\Message;
 use blog\services\ResponseCode;
 
@@ -46,11 +47,11 @@ class PostController extends Controller
       $title = $_POST['title'];
       $content = $_POST['content'];
       $data = [
-        'title' => $title,
-        'content' => $content
+        'title' => inputUtilized::sanitizeInput($title, 'string'),
+        'content' => inputUtilized::sanitizeInput($content, 'string'),
       ];
       $updatePost = new PostModel();
-      $user_id = ['id' => $id];
+      $user_id = ['id' => inputUtilized::sanitizeInput($id, 'int')];
       $updatePost->update($data, $user_id);
       $this->message->messageWithRoute('/', 'Post updated successfully', 'success');
     }
@@ -62,8 +63,9 @@ class PostController extends Controller
       $createPost = new PostModel();
       $title = $_POST['title'];
       $content = $_POST['content'];
+      
       $data = [
-        'user_id' => 1,
+        'user_id' => $this->auth->userId() ,
         'title' => $title,
         'content' => $content
       ];
@@ -75,6 +77,7 @@ class PostController extends Controller
   }
   public function create()
   {
+    
     $this->views('/posts/create');
   }
   public function destroy($id)

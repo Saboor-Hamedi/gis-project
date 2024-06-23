@@ -8,7 +8,9 @@ class Router
 {
   protected array $routes = [];
   protected array $namedRoutes = [];
+  public array $middlewares = [];
 
+ 
   /**
    * Add a new route to the router.
    */
@@ -50,7 +52,8 @@ class Router
     $pattern = preg_replace('#\{(\w+)\}#', '(?P<\1>[^/]+)', $route);
     return '#^' . $pattern . '$#';
   }
-
+  
+  
   public function match(string $httpMethod, string $uri): ?array
   {
     if (!isset($this->routes[$httpMethod])) {
@@ -66,7 +69,10 @@ class Router
             $params[$key] = $value;
           }
         }
-        return ['routeInfo' => $routeInfo, 'params' => $params];
+        // Check if there are middlewares for this route
+        $middlewares = $this->middlewares[$route] ?? [];
+        return ['routeInfo' => $routeInfo, 'params' => $params, 'middlewares' => $middlewares];
+        // return ['routeInfo' => $routeInfo, 'params' => $params];
       }
     }
     return null;

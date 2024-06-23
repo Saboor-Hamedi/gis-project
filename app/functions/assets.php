@@ -27,4 +27,11 @@ function images($path, $base_url = '')
   echo $url;
 }
 
-// header
+// display error;
+function error($errors, $field)
+{
+  if (isset($errors[$field])) {
+    echo '<small class="error">' . htmlspecialchars($errors[$field]) . '</small>';
+  }
+}
+

@@ -1,8 +1,7 @@
 <?php
 declare(strict_types=1);
 namespace blog\Routes\core;
-use blog\Routes\core\App;
-use blog\Routes\core\Router;
+
 class Routes
 {
     public string $method;
@@ -11,6 +10,7 @@ class Routes
     public string $action;
     public ?string $name = null;
     protected Router $router;
+    protected array $middlewares = [];
 
     public function __construct(string $method, string $uri, string $controller, string $action, Router $router)
     {
@@ -28,6 +28,16 @@ class Routes
     {
         $this->name = $name;
         $this->router->registerNamedRoute($this);
+        return $this;
+    }
+
+    /**
+     * Attach middleware to the route.
+     */
+    public function middleware(callable $middleware): self
+    {
+        $this->middlewares[] = $middleware;
+        $this->router->middlewares[$this->uri] = $this->middlewares;
         return $this;
     }
 

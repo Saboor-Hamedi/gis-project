@@ -7,6 +7,7 @@ namespace blog\Routes\core;
 use blog\services\ResponseCode;
 
 class App
+
 {
   use ResponseCode;
 
@@ -46,9 +47,14 @@ class App
     $uri = $this->getRequestUri();
     $routeMatch = $this->router->match($httpMethod, $uri);
     if ($routeMatch === null) {
-      // $this->sendResponse(self::NOT_FOUND, 'The page you requested could not be found');
+      $this->sendResponse(self::NOT_FOUND, 'The page you requested could not be found');
       return;
     }
+    // Execute middlewares
+    foreach ($routeMatch['middlewares'] as $middleware) {
+      call_user_func($middleware);
+    }
+
 
     $this->executeControllerAction($routeMatch['routeInfo'], ...$routeMatch['params']);
   }
@@ -87,11 +93,11 @@ class App
    */
   private function callActionOnController(object $controller, string $action, array $args): void
   {
-      if (!method_exists($controller, $action)) {
-        dd($action);  
-          $this->sendResponse(self::METHOD_NOT_ALLOWED, "The requested action '{$action}' is not allowed.");
-          return;
-      }
-      call_user_func_array([$controller, $action], $args);
+    if (!method_exists($controller, $action)) {
+      dd($action);
+      $this->sendResponse(self::METHOD_NOT_ALLOWED, "The requested action '{$action}' is not allowed.");
+      return;
+    }
+    call_user_func_array([$controller, $action], $args);
   }
 }

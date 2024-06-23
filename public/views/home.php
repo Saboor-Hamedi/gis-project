@@ -1,14 +1,10 @@
 <?php
-
 use Illuminate\Support\Str;
 use blog\services\Message;
-
 $msg = new Message();
 ?>
 <?php
-
 use blog\functions\CSRF;
-
 path('layout/main'); ?>
 <?php $msg->displayMessage(); ?>
 <?php path('layout/banner', ['banners' => $banners]); ?>

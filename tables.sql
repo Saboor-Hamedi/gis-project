@@ -7,8 +7,16 @@ CREATE TABLE `users` (
   `roles` tinyint(1) DEFAULT 0,
   PRIMARY KEY (`id`)
 );
-insert into users (username, email, password) values('admin', 'admin@gmail.com', '123');
-insert into users (username, email, password) values('guest', 'guest@gmail.com', '123');
+
+create table `posts`(
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `title` varchar(255) NOT NULL,
+  `content` text NOT NULL,
+  `created_at` timestamp NULL DEFAULT current_timestamp(),
+  `user_id` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE
+);
 
 /* banner */
 create table `banner` (
@@ -24,14 +32,8 @@ Global Islamic School adalah sekolah islam yang menggunakan kurikulum nasional y
 "
 );
 
-create table `posts`(
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `title` varchar(255) NOT NULL,
-  `content` text NOT NULL,
-  `created_at` timestamp NULL DEFAULT current_timestamp(),
-  `user_id` int(11) NOT NULL,
-  PRIMARY KEY (`id`),
-  FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE
-);
+insert into users (username, email, password) values('admin', 'admin@gmail.com', '$2y$10$Cpi4JWWMhpxWd7NeR9SLVOzERH0HAuBTlSH1M8E/k073rk/IPTswC');
+insert into users (username, email, password) values('guest', 'guest@gmail.com', '$2y$10$Cpi4JWWMhpxWd7NeR9SLVOzERH0HAuBTlSH1M8E/k073rk/IPTswC');
+
 insert into posts (title, content, user_id) values('Post 1', 'Global Islamic School', 1);
 insert into posts (title, content, user_id) values('Post 2', 'Global Islamic School', 2);
