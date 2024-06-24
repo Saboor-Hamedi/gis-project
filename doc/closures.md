@@ -10,23 +10,23 @@ In order to use the views function within closures, you need to include it in yo
 // `helpers.php`
 
 // Check if the function 'views' does not already exist
+<?php
+use blog\controllers\Controller;
+
+// closure function 
+// $router->get('/test', function() {
+//     return view('/test');
+// });
 if (!function_exists('views')) {
-    // Define the 'views' function
     function views(string $view, array $data = [])
     {
-        $controller = new \blog\controllers\Controller(); // Adjust namespace as per your actual Controller namespace
+        $controller = new Controller();
         ob_start();
         $controller->views($view, $data);
         return ob_get_clean();
     }
 }
 
-// Error handling for missing 'helpers.php' inclusion
-if (!function_exists('views')) {
-    // Output a clear error message
-    echo "Error: The 'views' function is not available. Make sure to require 'helpers.php' in your bootstrap process.";
-    exit;
-}
 
 ```
 Ensure `closures.php` is required at the beginning of your bootstrap process (bootstrap.php or similar) to make the views function and other helper functions available throughout your application.
