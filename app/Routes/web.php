@@ -2,6 +2,7 @@
 declare(strict_types=1);
 // 
 
+use blog\controllers\Controller;
 use blog\controllers\dashboard\AdminController;
 use blog\controllers\HomeController;
 use blog\controllers\login\LoginController;
@@ -11,6 +12,7 @@ use blog\Routes\core\Router;
 use blog\Routes\core\Routes;
 use blog\services\auth\Middleware;
 $router = new Router();
+
 $router->get('/', HomeController::class, 'index')->middleware([new Middleware(), 'preventBackWhenLoggedIn'])->name('home');
 $router->get('/posts/index', PostController::class, 'index')->name('posts.index');
 $router->get('/posts/show/{id}', PostController::class, 'show')->name('posts.show');
@@ -30,6 +32,12 @@ $router->post('/login/logout', LoginController::class, 'logout')
 $router->get('/dashboard/admin', AdminController::class, 'index')
        ->middleware([new Middleware(), 'requireLoggedIn'])
        ->name('dashboard.admin');
+
+// closure funtion 
+$router->get('/test', function() {
+    return views('/test',['errors']);
+});
+
 $app = new App($router);
 Routes::run($app);
 

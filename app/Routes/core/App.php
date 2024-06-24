@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace blog\Routes\core;
 
+use blog\controllers\Controller;
 use blog\services\ResponseCode;
 
 class App
-
 {
   use ResponseCode;
 
@@ -59,11 +59,25 @@ class App
     $this->executeControllerAction($routeMatch['routeInfo'], ...$routeMatch['params']);
   }
 
+
   /**
    * Execute the controller action.
    */
+  // App.php
   private function executeControllerAction(array $routeInfo, ...$args): void
   {
+    if ($routeInfo['isClosure']) {
+      $controller = $routeInfo['controller'];
+      if ($controller instanceof \Closure) {
+        $controller = $controller->bindTo(new \blog\controllers\Controller(), \blog\controllers\Controller::class);
+      }
+      $output = call_user_func_array($controller, $args);
+      if (is_string($output)) {
+        echo $output;
+      }
+      return;
+    }
+
     $controller = $this->createControllerInstance($routeInfo['controller']);
     if (!$controller) {
       $this->sendResponse(self::NOT_FOUND, "Controller not found.");
@@ -76,6 +90,8 @@ class App
     }
     $this->callActionOnController($controller, $action, $args);
   }
+
+
 
   /**
    * Create an instance of the controller.

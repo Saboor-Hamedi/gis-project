@@ -10,39 +10,53 @@ class Router
   protected array $namedRoutes = [];
   public array $middlewares = [];
 
- 
+
   /**
    * Add a new route to the router.
    */
-  public function addRoute(string $method, string $route, string $controller, string $action = 'index'): Routes
+  public function addRoute(string $method, string $route, $controller, string $action = 'index'): Routes
   {
-    $routeInstance = new Routes($method, strtolower($route), $controller, $action, $this);
-    $this->routes[$method][$routeInstance->uri] = [
-      'controller' => $routeInstance->controller,
-      'action' => $routeInstance->action
-    ];
+    if (is_callable($controller)) {
+      $routeInstance = new Routes($method, strtolower($route), '', '', $this);
+      $this->routes[$method][$routeInstance->uri] = [
+        'controller' => $controller,
+        'action' => $action,
+        'isClosure' => true
+      ];
+    } else {
+      $routeInstance = new Routes($method, strtolower($route), $controller, $action, $this);
+      $this->routes[$method][$routeInstance->uri] = [
+        'controller' => $routeInstance->controller,
+        'action' => $routeInstance->action,
+        'isClosure' => false
+      ];
+    }
     return $routeInstance;
   }
 
-  public function get(string $route, string $controller, string $action = 'index'): Routes
+
+
+
+  public function get(string $route, $controller, string $action = 'index'): Routes
   {
     return $this->addRoute('GET', $route, $controller, $action);
   }
 
-  public function post(string $route, string $controller, string $action = 'index'): Routes
+  public function post(string $route, $controller, string $action = 'index'): Routes
   {
     return $this->addRoute('POST', $route, $controller, $action);
   }
 
-  public function put(string $route, string $controller, string $action = 'update'): Routes
+  public function put(string $route, $controller, string $action = 'update'): Routes
   {
     return $this->addRoute('PUT', $route, $controller, $action);
   }
 
-  public function delete(string $route, string $controller, string $action = 'destroy'): Routes
+  public function delete(string $route, $controller, string $action = 'destroy'): Routes
   {
     return $this->addRoute('DELETE', $route, $controller, $action);
   }
+
 
   /**
    * Match a given URI with the registered routes.
@@ -52,8 +66,8 @@ class Router
     $pattern = preg_replace('#\{(\w+)\}#', '(?P<\1>[^/]+)', $route);
     return '#^' . $pattern . '$#';
   }
-  
-  
+
+
   public function match(string $httpMethod, string $uri): ?array
   {
     if (!isset($this->routes[$httpMethod])) {
@@ -72,11 +86,11 @@ class Router
         // Check if there are middlewares for this route
         $middlewares = $this->middlewares[$route] ?? [];
         return ['routeInfo' => $routeInfo, 'params' => $params, 'middlewares' => $middlewares];
-        // return ['routeInfo' => $routeInfo, 'params' => $params];
       }
     }
     return null;
   }
+
 
   /**
    * Get the URL for a named route.
