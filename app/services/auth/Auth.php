@@ -21,7 +21,13 @@ class Auth
   {
     return $this->session->has('user_id');
   }
-  
+  public function userRoles(){
+    return $this->session->get('roles');
+  }
+  public function hasRoles(array $roles){
+    $currentUserRoles = $this->userRoles();
+    return in_array($currentUserRoles, $roles);
+  }
 
   public function isAuthorized($user_id)
   {

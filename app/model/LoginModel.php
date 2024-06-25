@@ -5,7 +5,7 @@ use blog\services\Html\Validation;
 
 class LoginModel extends Model{
   protected $table = 'users';
-  protected $fillable = ['username', 'email', 'password', 'created_at', 'roles'];
+  protected $fillable = ['username', 'email', 'created_at', 'roles'];
   public function __construct()
   {
     parent::__construct($this->table);

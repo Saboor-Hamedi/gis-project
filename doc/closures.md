@@ -7,8 +7,6 @@ Directory Structure: Have a clear understanding of your application's directory 
 Setting Up `closures.php`
 In order to use the views function within closures, you need to include it in your `closures.php` file. If you haven't already, define the views function in `closures.php` as shown below:
 ```php
-// `helpers.php`
-
 // Check if the function 'views' does not already exist
 <?php
 use blog\controllers\Controller;

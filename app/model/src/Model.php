@@ -11,49 +11,38 @@ class Model
   protected $db;
   protected $table;
   protected $fillable = [];
-  protected $guarded = [
-    '*'
-  ];
+  protected $guarded = ['*'];
   public function __construct($table)
   {
     $this->db = new Database();
     $this->table = $table;
   }
-  // public function all()
-  // {
-  //   $sql = "SELECT * FROM {$this->table}";
-  //   return $this->db->all($sql);
-  // }
 
   public function all(?int $limit = null, int $offset = 0, ?string $orderBy = null, string $orderDirection = 'ASC')
   {
-    // Get fillable columns
-    $columns = $this->fillable;
-
-    // Format columns
-    $columns = implode(', ', $columns);
-
-    // Build the SQL query
+    $columns = implode(', ', $this->fillable);
     $sql = "SELECT {$columns} FROM {$this->table}";
 
-    // Add ORDER BY clause
     if ($orderBy !== null) {
       $sql .= " ORDER BY {$orderBy} {$orderDirection}";
     }
 
-    // Add LIMIT and OFFSET clauses
     if ($limit !== null) {
       $sql .= " LIMIT {$limit} OFFSET {$offset}";
     }
 
-    // Execute the query and return the result
     return $this->db->all($sql);
   }
 
   public function single()
   {
     $sql = "SELECT * FROM {$this->table} LIMIT 1";
-    return $this->db->single($sql);
+    $result = $this->db->single($sql);
+    $filter = $this->filterData($result, $this->fillable);
+    if (is_array($filter) || is_object($filter)) {
+      return [$filter];
+    }
+    return [];
   }
   public function create($data)
   {
@@ -63,31 +52,41 @@ class Model
   }
   public function find($condition)
   {
-    return $this->db->find($this->table, $condition);
+    $result = $this->db->find($this->table, $condition);
+    $filter = $this->filterData($result, $this->fillable);
+
+    // Ensure the filtered result is always returned as an array
+    if (is_array($filter) || is_object($filter)) {
+      return [$filter];
+    }
+
+    return [];
   }
+
   public function delete($condition)
   {
     return $this->db->delete($this->table, $condition);
   }
   public function update($data, $condition)
   {
-    return $this->db->update($this->table, $data, $condition);
+    $fillableData = $this->filterData($data, $this->fillable);
+    return $this->db->update($this->table, $fillableData, $condition);
   }
- 
+ public function login($condition)
+  {
+    return $this->db->find($this->table, $condition);
+  }
   public function findBy($column, $value)
   {
     $condition = [$column => $value];
-    $cond =  $this->find($condition);
+    $cond = $this->login($condition);
     return $cond;
   }
   protected function filterData($data, $allowedAttributes)
   {
-
-    // if guarded,  no attribute can be allowed 
     if (in_array('*', $allowedAttributes)) {
       return [];
     }
-    // filter the data to include only allowed 
     return array_intersect_key($data, array_flip($allowedAttributes));
   }
 }

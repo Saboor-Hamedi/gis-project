@@ -1,5 +1,7 @@
 <?php
 use Illuminate\Support\Str;
+use Carbon\Carbon;
+
 use blog\services\Message;
 $msg = new Message();
 ?>
@@ -15,7 +17,10 @@ path('layout/main'); ?>
         <div class="card h-100 d-flex flex-column overflow-hidden shadow-sm rounded-lg">
           <div class="card-body d-flex flex-column">
             <h5 class="card-title"><?php echo $post['title']; ?></h5>
-            <p class="card-text"><?php echo Str::limit($post['content'], 40); ?></p>
+            <p class="card-text mb-0"><?php echo Str::limit($post['content'], 40); ?>
+            </p>
+            <small class="mb-2"><?php echo Carbon::parse($post['created_at'])->diffForHumans(); ?></small>
+
             <div class="mt-auto">
               <div class="d-flex justify-content-between align-items-center">
                 <a href="<?php url("/posts/create"); ?>" class="btn btn-sm btn-primary">Create</a>

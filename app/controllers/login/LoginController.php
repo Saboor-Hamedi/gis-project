@@ -4,10 +4,12 @@ namespace blog\controllers\login;
 
 use blog\controllers\Controller;
 use blog\model\LoginModel;
+use blog\services\auth\Middleware;
 use blog\services\Html\InputUtilized;
 use blog\services\Html\Validation;
 use blog\services\Message;
 use blog\services\ResponseCode;
+use blog\services\Roles\HashRoles;
 use blog\services\Session;
 
 class LoginController extends Controller
@@ -18,6 +20,8 @@ class LoginController extends Controller
   protected $session;
   protected $message;
   protected $validate;
+  protected $middleware;
+  use HashRoles;
 
   public function __construct()
   {
@@ -25,6 +29,7 @@ class LoginController extends Controller
     $this->validate = new Validation();
     $this->session = new Session();
     $this->message = new Message();
+    $this->middleware = new Middleware();
   }
   public function index()
   {
@@ -45,7 +50,13 @@ class LoginController extends Controller
     if ($this->authenticate($email, $password)) {
       $user = $this->loginModel->findBy('email', $email);
       $this->session->set('user_id', $user['id']); // store  user_id
-      $this->redirect('/dashboard/admin');
+      $roles = $this->session->set('roles', $user['roles']);
+      if(!empty($roles)) {
+        $this->session->destroy();
+      }else{
+        // $this->redirect('/dashboard/admin');
+        $this->routeBasedOnRole();
+      }
     } else {
       $this->message->setMessage('Invalid email or password', 'danger');
       $this->views('/login/login', ['errors' => []]);
@@ -54,7 +65,7 @@ class LoginController extends Controller
   public function authenticate(string $email, string $password): bool
   {
     $user = $this->loginModel->findBy('email', $email);
-    if ($user && password_verify($password, $user['password'])) {
+    if ($user && isset($user['password']) && password_verify($password, $user['password'])) {
       return true;
     }
     return false;

@@ -7,10 +7,12 @@ use blog\controllers\dashboard\AdminController;
 use blog\controllers\HomeController;
 use blog\controllers\login\LoginController;
 use blog\controllers\posts\PostController;
+use blog\controllers\students\StudentController;
 use blog\Routes\core\App;
 use blog\Routes\core\Router;
 use blog\Routes\core\Routes;
 use blog\services\auth\Middleware;
+
 $router = new Router();
 
 $router->get('/', HomeController::class, 'index')->middleware([new Middleware(), 'preventBackWhenLoggedIn'])->name('home');
@@ -28,16 +30,16 @@ $router->post('/login/login', LoginController::class, 'login')->middleware([new 
        ->name('login.login');
 $router->post('/login/logout', LoginController::class, 'logout')
        ->name('logout');
-// Dashboard route
-$router->get('/dashboard/admin', AdminController::class, 'index')
-       ->middleware([new Middleware(), 'requireLoggedIn'])
+// ---------------Admin route
+$router->get('/dashboard/admin', AdminController::class, 'index')->middleware([new Middleware(), 'requireLoggedIn'])
        ->name('dashboard.admin');
-
-// closure funtion 
-$router->get('/test', function() {
-    return views('/test',['errors']);
-});
-
+$router->get('/dashboard/show', AdminController::class, 'show')->middleware([new Middleware(), 'requireLoggedIn'])
+       ->name('dashboard.show');
+// ---------------Student route
+$router->get('/students/index', StudentController::class, 'index')->middleware([new Middleware(), 'requireLoggedIn'])
+       ->name('students/index');
+$router->get('/students/show', StudentController::class, 'show')->middleware([new Middleware(), 'requireLoggedIn'])
+       ->name('students/show');
 $app = new App($router);
 Routes::run($app);
 

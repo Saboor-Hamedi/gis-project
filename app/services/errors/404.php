@@ -14,8 +14,14 @@
 
     .message {
       font-size: 2em;
-      margin-top: 100px;
+      margin-top: 50px; /* Adjusted margin-top for better alignment */
     }
+
+    .error-img {
+      width: 200px; /* Adjusted image width */
+      margin-bottom: 20px; /* Added margin-bottom for spacing */
+    }
+
   </style>
 </head>
 
@@ -23,8 +29,8 @@
   <?php
   $message = isset($message) ? (string) $message : 'The page you requested could not be found.';
   ?>
-  <!-- <p>The page you requested could not be found.</p> -->
-  <p class="message"><?php echo htmlspecialchars($message, ENT_QUOTES,'UTF-8') ?></p>
+  <img src="<?php assets('images/logo.png') ?>" class="error-img">
+  <p class="message"><?php echo htmlspecialchars($message, ENT_QUOTES, 'UTF-8') ?></p>
   <a href="/">Go to Home Page</a>
 </body>
 

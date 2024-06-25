@@ -9,3 +9,6 @@
 The compileRoute method is designed to convert route definitions like 
 > /user/{id} into regex patterns like #^/user/(?P<id>[^/]+)$#. 
 Here’s a step-by-step breakdown of the method:
+
+also install install `composer require nesbot/carbon`
+show the time like facebook: `<small class="mb-2"><?php echo Carbon::parse($post['created_at'])->diffForHumans(); ?></small>`

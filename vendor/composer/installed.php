@@ -1,9 +1,9 @@
 <?php return array(
     'root' => array(
         'name' => 'saboor/school',
-        'pretty_version' => '1.0.0+no-version-set',
-        'version' => '1.0.0.0',
-        'reference' => NULL,
+        'pretty_version' => 'dev-main',
+        'version' => 'dev-main',
+        'reference' => '91f85e73513828142301e00b825abfddfd5e39ca',
         'type' => 'faker',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -83,9 +83,9 @@
             'dev_requirement' => false,
         ),
         'nesbot/carbon' => array(
-            'pretty_version' => '3.4.0',
-            'version' => '3.4.0.0',
-            'reference' => '8eab8983c83c30e0bacbef8d311e3f3b8172727f',
+            'pretty_version' => '3.6.0',
+            'version' => '3.6.0.0',
+            'reference' => '39c8ef752db6865717cc3fba63970c16f057982c',
             'type' => 'library',
             'install_path' => __DIR__ . '/../nesbot/carbon',
             'aliases' => array(),
@@ -134,9 +134,9 @@
             'dev_requirement' => false,
         ),
         'saboor/school' => array(
-            'pretty_version' => '1.0.0+no-version-set',
-            'version' => '1.0.0.0',
-            'reference' => NULL,
+            'pretty_version' => 'dev-main',
+            'version' => 'dev-main',
+            'reference' => '91f85e73513828142301e00b825abfddfd5e39ca',
             'type' => 'faker',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
