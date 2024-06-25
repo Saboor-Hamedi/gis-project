@@ -37,12 +37,8 @@ class Model
   public function single()
   {
     $sql = "SELECT * FROM {$this->table} LIMIT 1";
-    $result = $this->db->single($sql);
-    $filter = $this->filterData($result, $this->fillable);
-    if (is_array($filter) || is_object($filter)) {
-      return [$filter];
-    }
-    return [];
+    return $this->db->single($sql);
+
   }
   public function create($data)
   {
@@ -62,6 +58,41 @@ class Model
 
     return [];
   }
+ public function where(array $conditions, ?int $limit = null, int $offset = 0, ?string $orderBy = null, string $orderDirection = 'ASC')
+{
+    $columns = implode(', ', $this->fillable);
+    $whereClause = [];
+    $params = [];
+
+    foreach ($conditions as $key => $value) {
+        if (is_array($value)) {
+            $inValues = implode(',', array_fill(0, count($value), '?'));
+            $whereClause[] = "$key IN ($inValues)";
+            $params = array_merge($params, $value);
+        } else {
+            $whereClause[] = "$key = :$key";
+            $params[":$key"] = $value;
+        }
+    }
+
+    $whereClause = implode(' AND ', $whereClause);
+    $sql = "SELECT {$columns} FROM {$this->table} WHERE {$whereClause}";
+
+    if ($orderBy !== null) {
+        $sql .= " ORDER BY {$orderBy} {$orderDirection}";
+    }
+
+    if ($limit !== null) {
+        $sql .= " LIMIT {$limit} OFFSET {$offset}";
+    }
+
+    // Debugging output
+    //var_dump($sql, $params);
+
+    return $this->db->all($sql, $params);
+}
+
+
 
   public function delete($condition)
   {
@@ -72,7 +103,7 @@ class Model
     $fillableData = $this->filterData($data, $this->fillable);
     return $this->db->update($this->table, $fillableData, $condition);
   }
- public function login($condition)
+  public function login($condition)
   {
     return $this->db->find($this->table, $condition);
   }

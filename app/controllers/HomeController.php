@@ -13,8 +13,6 @@ class HomeController extends Controller
     $banner = new BannerModel();
     $post = new PostModel();
     $posts = $post->all(3, 0, 'created_at', 'DESC');
-
-
     $banners = $banner->getAllBanners();
     $this->views('/home', ['posts' => $posts,'banners' => $banners]);
   }

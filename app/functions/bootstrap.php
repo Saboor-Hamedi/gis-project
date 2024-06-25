@@ -2,6 +2,8 @@
 declare(strict_types=1);
 
 require_once __DIR__ . '/../../vendor/autoload.php';
+use blog\Http\version\PHPVersion;
+new PHPVersion('7.4');
 require_once __DIR__ . '/dump.php';
 require_once __DIR__ . '/assets.php';
 require_once __DIR__ . '/partials.php';

@@ -15,7 +15,7 @@ use blog\services\auth\Middleware;
 
 $router = new Router();
 
-$router->get('/', HomeController::class, 'index')->middleware([new Middleware(), 'preventBackWhenLoggedIn'])->name('home');
+$router->get('/', HomeController::class, 'index')->name('home');
 $router->get('/posts/index', PostController::class, 'index')->name('posts.index');
 $router->get('/posts/show/{id}', PostController::class, 'show')->name('posts.show');
 $router->get('/posts/create', PostController::class, 'create')->middleware([new Middleware(), 'requireLoggedIn'])->name('posts.create');
@@ -40,6 +40,9 @@ $router->get('/students/index', StudentController::class, 'index')->middleware([
        ->name('students/index');
 $router->get('/students/show', StudentController::class, 'show')->middleware([new Middleware(), 'requireLoggedIn'])
        ->name('students/show');
+$router->get('/students/create', StudentController::class, 'create')->middleware([new Middleware(), 'requireLoggedIn'])->name('students.create');
+$router->post('/students/store', StudentController::class, 'store')->middleware([new Middleware(), 'requireLoggedIn'])->name('students.store');
+
 $app = new App($router);
 Routes::run($app);
 

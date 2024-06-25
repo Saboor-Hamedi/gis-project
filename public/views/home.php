@@ -1,14 +1,13 @@
 <?php
 use Illuminate\Support\Str;
 use Carbon\Carbon;
-
 use blog\services\Message;
 $msg = new Message();
 ?>
 <?php
 use blog\functions\CSRF;
 path('layout/main'); ?>
-<?php $msg->displayMessage(); ?>
+
 <?php path('layout/banner', ['banners' => $banners]); ?>
 <div class="container">
   <div class="row">
