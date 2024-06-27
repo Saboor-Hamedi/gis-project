@@ -7,11 +7,12 @@
    
     <?php if (!empty($banners)) : ?>
       <div class="col-lg-6 col-md-8 mx-auto">
-        <h1 class="fw-light"><?php echo $banners['title']; ?></h1>
-        <p class="lead text-body-secondary"><?php echo $banners['content']; ?></p>
+        <h1><?php echo $banners['title']; ?></h1>
+        <p><?php echo $banners['content']; ?></p>
         <p>
           <a href="#" class="btn btn-primary my-2">Main call to action</a>
           <a href="#" class="btn btn-secondary my-2">Secondary action</a>
+          
         </p>
       </div>
     <?php else : ?>
@@ -22,3 +23,4 @@
     <?php endif; ?>
   </div>
 </section>
+

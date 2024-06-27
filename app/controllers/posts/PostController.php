@@ -32,8 +32,8 @@ class PostController extends Controller
   public function edit($id)
   {
     $postModel = new PostModel();
-    $post = $postModel->find(['id'=>$id]);
-    if(!$post){
+    $post = $postModel->find(['id' => $id]);
+    if (!$post) {
       $this->sendResponse(404);
       die;
     }
@@ -63,9 +63,9 @@ class PostController extends Controller
       $createPost = new PostModel();
       $title = $_POST['title'];
       $content = $_POST['content'];
-      
+
       $data = [
-        'user_id' => $this->auth->userId() ,
+        'user_id' => $this->auth->userId(),
         'title' => $title,
         'content' => $content
       ];
@@ -77,7 +77,7 @@ class PostController extends Controller
   }
   public function create()
   {
-    
+
     $this->views('/posts/create');
   }
   public function destroy($id)

@@ -17,7 +17,4 @@
 
 <body >
   <?php path('layout/navbar'); ?>
-  <main class="main__container">
-    
-
-   
+  <main class="main">

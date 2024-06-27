@@ -6,7 +6,8 @@ $msg = new Message();
 ?>
 <?php
 use blog\functions\CSRF;
-path('layout/main'); ?>
+path('layout/frontPage');
+ ?>
 
 <?php path('layout/banner', ['banners' => $banners]); ?>
 <div class="container">

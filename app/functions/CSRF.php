@@ -8,7 +8,7 @@ class CSRF
 {
     protected static $session;
 
-    // Initialize the Session class and ensure CSRF token is valid for POST requests
+    // Initialize the Session class
     public static function init()
     {
         if (is_null(self::$session)) {
@@ -21,13 +21,15 @@ class CSRF
                 // Invalid token, possible CSRF attack
                 die("Invalid token, possible CSRF attack.");
             }
+            // Invalidate the token after usage
+            self::$session->remove('token');
         }
     }
 
     // Generate CSRF token and output hidden input field
     public static function generate()
     {
-        self::init(); // Ensure session is started and CSRF is validated
+        self::init(); // Ensure session is started
         $token = bin2hex(random_bytes(32));
         self::$session->set('token', [
             'value' => $token,

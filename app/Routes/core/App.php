@@ -43,27 +43,34 @@ class App
    */
   public function run(): void
   {
-    $httpMethod = $this->getRequestMethod();
-    $uri = $this->getRequestUri();
-    $routeMatch = $this->router->match($httpMethod, $uri);
-    if ($routeMatch === null) {
-      $this->sendResponse(self::NOT_FOUND, 'The page you requested could not be found');
-      return;
-    }
-    // Execute middlewares
-    foreach ($routeMatch['middlewares'] as $middleware) {
-      call_user_func($middleware);
-    }
+    try {
+      $httpMethod = $this->getRequestMethod();
+      $uri = $this->getRequestUri();
+      $routeMatch = $this->router->match($httpMethod, $uri);
 
+      if ($routeMatch === null) {
+        $this->sendResponse(self::NOT_FOUND, 'Route not found');
+      }
 
-    $this->executeControllerAction($routeMatch['routeInfo'], ...$routeMatch['params']);
+      // Execute middlewares
+      if (isset($routeMatch['middlewares'])) {
+        foreach ($routeMatch['middlewares'] as $middleware) {
+          call_user_func($middleware);
+        }
+      }
+
+      if (isset($routeMatch['routeInfo']) && is_array($routeMatch['routeInfo'])) {
+        $this->executeControllerAction($routeMatch['routeInfo'], ...($routeMatch['params'] ?? []));
+      }
+    } catch (\Exception $e) {
+      echo 'Semthing went wrong on route' . $e->getMessage();
+
+    }
   }
-
 
   /**
    * Execute the controller action.
    */
-  // App.php
   private function executeControllerAction(array $routeInfo, ...$args): void
   {
     if ($routeInfo['isClosure']) {
@@ -83,15 +90,15 @@ class App
       $this->sendResponse(self::NOT_FOUND, "Controller not found.");
       return;
     }
+
     $action = $routeInfo['action'];
     if (!method_exists($controller, $action)) {
       $this->sendResponse(self::METHOD_NOT_ALLOWED, "The requested action '{$action}' is not allowed.");
       return;
     }
+
     $this->callActionOnController($controller, $action, $args);
   }
-
-
 
   /**
    * Create an instance of the controller.
@@ -110,7 +117,6 @@ class App
   private function callActionOnController(object $controller, string $action, array $args): void
   {
     if (!method_exists($controller, $action)) {
-      dd($action);
       $this->sendResponse(self::METHOD_NOT_ALLOWED, "The requested action '{$action}' is not allowed.");
       return;
     }

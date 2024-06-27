@@ -1,9 +1,11 @@
 <?php path('layout/main');
-use Carbon\Carbon; 
+use Carbon\Carbon;
 use blog\functions\CSRF;
 use Illuminate\Support\Str;
+
 ?>
-<div class="login-card" style="max-width: 80%">
+<?php path('layout/sidebar'); ?>
+<div class="table__card">
   <?php use blog\services\Message; ?>
   <?php $message = new Message(); ?>
   <?php $message->displayMessage(); ?>
@@ -26,29 +28,28 @@ use Illuminate\Support\Str;
   </table>
 </div>
 <!-- posts -->
-<div class="container" style="max-width: 80%">
-  <div class="row">
-    <?php foreach ($posts as $post) : ?>
-      <div class="col-md-4 mb-2 card-container">
-        <div class="card h-100 d-flex flex-column overflow-hidden shadow-sm rounded-lg">
-          <div class="card-body d-flex flex-column">
-            <h5 class="card-title"><?php echo $post['title']; ?></h5>
-            <p class="card-text mb-0"><?php echo Str::limit($post['content'], 40); ?>
-            </p>
-            <small class="mb-2"><?php echo Carbon::parse($post['created_at'])->diffForHumans(); ?></small>
-
-            <div class="mt-auto">
-              <div class="d-flex justify-content-between align-items-center">
-                <a href="<?php url("/students/create"); ?>" class="btn btn-sm btn-primary">Create</a>
-                <div class="d-flex">
-                  <a href="/students/show/<?php echo $post['id']; ?>" class="btn btn-sm btn-outline-secondary me-2">Read</a>
-                  <a href="/students/update/<?php echo $post['id']; ?>" class="btn btn-sm btn-outline-secondary me-2">Edit</a>
-                  <form action="<?php url('/posts/delete/' . $post['id']); ?>" method="POST" style="display:inline;">
+<div class="post__container">
+  <div class="post__row">
+    <?php foreach ($posts as $post): ?>
+      <div class="post__content">
+        <div class="post__header">
+          <h5 class="card-title"><?php echo $post['title']; ?></h5>
+        </div>
+        <p class="card-text mb-0"><?php echo Str::limit($post['content'], 40); ?></p>
+        <small class="post__time"><?php echo Carbon::parse($post['created_at'])->diffForHumans(); ?></small>
+        <div class="post__footer">
+          <div class="mt-auto">
+            <div class="d-flex justify-content-between align-items-center">
+              <a href="<?php url("/students/create"); ?>" class="btn btn-sm btn-primary">Create</a>
+              <div class="d-flex">
+                <a href="/students/show/<?php echo $post['id']; ?>" class="btn btn-sm btn-outline-secondary me-2">Read</a>
+                <a href="/students/update/<?php echo $post['id']; ?>"
+                  class="btn btn-sm btn-outline-secondary me-2">Edit</a>
+                <form action="<?php url('/students/destroy/' . $post['id']); ?>" method="POST" style="display:inline;">
                   <?php CSRF::generate(); ?>
-                    <input type="hidden" name="_method" value="DELETE">
-                    <button type="submit" class="btn btn-sm btn-outline-danger">Delete</button>
-                  </form>
-                </div>
+                  <input type="hidden" name="_method" value="DELETE">
+                  <button type="submit" class="btn btn-sm btn-outline-danger">Delete</button>
+                </form>
               </div>
             </div>
           </div>
@@ -56,6 +57,10 @@ use Illuminate\Support\Str;
       </div>
     <?php endforeach; ?>
   </div>
+</div>
 
+<!-- end -->
 </div>
 <script src="<?php assets('js/bootstrap.bundle.min.js'); ?>"></script>
+<script src="<?php assets('js/dark-mode.js'); ?>"></script>
+<script src="<?php assets('js/side-bar.js'); ?>"></script>

@@ -1,0 +1,55 @@
+/* Define CSS variables for light and dark themes */
+:root {
+  --background-dark: #343a40;
+  --text-dark: #ffffff;
+  --background-light: #ffffff;
+  --text-light: #333333;
+}
+
+/* Sidebar styling */
+.sidebar {
+  position: fixed;
+  top: 60px;
+  left: 0;
+  width: 225px;
+  height: calc(100% - 60px);
+  padding: 20px 0;
+  background-color: var(--background-dark); /* Default to dark background */
+  transition: all 0.5s ease;
+  z-index: 1000;
+  overflow-y: auto;
+}
+
+/* Sidebar links styling */
+.sidebar ul li a {
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  margin-top: 5px;
+  color: var(--text-dark); /* Default text color */
+  padding: 8px 16px;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Active and hover states */
+.sidebar ul li a.active,
+.sidebar ul li a:hover {
+  background: #007bff;
+  border-radius: 4px;
+  color: #ffffff; /* Text color for active and hover states */
+}
+
+/* Light mode styles */
+[data-bs-theme='light'] .sidebar {
+  background-color: var(--background-light);
+}
+
+[data-bs-theme='light'] .sidebar ul li a {
+  color: var(--text-light);
+}
+/* login */
+
+
+[data-bs-theme='light'] .logout-button {
+  color: var(--text-light);
+}

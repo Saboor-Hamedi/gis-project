@@ -8,6 +8,7 @@ class Controller
 {
   const VIEWS_PATH = __DIR__ . '/../../public/views/';
   const HELPERS_PATH = __DIR__ . '/../../functions/';
+  protected $viewData = [];
 
   /**
    * Render a view file.
@@ -29,15 +30,24 @@ class Controller
 
     // Securely extract data
     $safeData = $this->sanitizeData($data);
+    // Merge default view data
+    $this->addDefaultViewData();
+    $safeData = array_merge($this->viewData, $safeData);
 
     // Use output buffering to capture the view output
     ob_start();
     extract($safeData, EXTR_SKIP);
+    $this->addDefaultViewData();
     require $viewPath;
     $output = ob_get_clean();
 
     // Output the captured content
     echo $output;
+  }
+
+  protected function addDefaultViewData(): void
+  {
+    $this->viewData['errors'] = $this->viewData['errors'] ?? [];
   }
 
   /**

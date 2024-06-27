@@ -1,17 +1,18 @@
-.custom-column {
-  border: 1px solid #ccc;
-  padding: 15px;
-  margin-bottom: 20px;
-  border-radius: 5px;
-  text-align: center;
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
-.custom__card__footer{
+
+
+.custom__card__footer {
   padding: 5px;
   background: #efeded;
   border-radius: 5px;
   margin-bottom: 5px;
 }
-textarea{
+
+textarea {
   width: 100%;
   height: 150px;
   padding: 12px 20px;
@@ -22,6 +23,7 @@ textarea{
   font-size: 16px;
   resize: none;
 }
+
 /* errors */
 .error {
   font-size: 10px;
@@ -29,8 +31,54 @@ textarea{
   margin-left: 5px;
   margin-top: 0px;
 }
-@media (max-width: 768px) { /* Adjust breakpoint as needed */
+
+/* logout button */
+.logout-button {
+  display: flex;
+  align-items: center;
+  padding: 0.75rem 1rem;
+  color: #ffffff;
+  text-decoration: none;
+  transition: background-color 0.3s ease;
+  background-color: transparent;
+  border: none;
+  width: 100%;
+  text-align: left;
+}
+/* main wraper, this is for mian contents */
+
+.main__container {
+  padding: 20px;
+  flex: 1;
+  margin-left: 225px;
+  transition: margin-left 0.3s ease;
+}
+@media (max-width: 768px) {
+
+  /* Adjust breakpoint as needed */
   .card-container {
-    grid-column: 1 / span 1; /* 1 column on smaller screens */
+    grid-column: 1 / span 1;
+    /* 1 column on smaller screens */
+  }
+}
+
+
+
+
+/* Additional responsive styles */
+@media (max-width: 768px) {
+  .main__container {
+    margin-left: 0;
+    /* Reset the margin for small screens */
+  }
+
+  .sidebar {
+    transform: translateX(-225px);
+    /* Hide the sidebar by default */
+  }
+
+  body.active .sidebar {
+    transform: translateX(0);
+    /* Show the sidebar when active */
   }
 }

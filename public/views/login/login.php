@@ -1,4 +1,4 @@
-<?php path('layout/main'); 
+<?php path('layout/frontPage'); 
 use blog\services\Message;?>
 <?php $msg = new Message() ?>
 
@@ -19,4 +19,5 @@ use blog\services\Message;?>
     <button type="submit" class="login-btn">Login</button>
   </form>
 </div>
-<script src="<?php assets('js/bootstrap.bundle.min.js'); ?>"></script>
+<?php path('layout/footer'); ?>
+<!-- <script src="<?php assets('js/bootstrap.bundle.min.js'); ?>"></script> -->

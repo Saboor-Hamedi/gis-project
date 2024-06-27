@@ -1,4 +1,5 @@
 <?php path('layout/main'); ;?>
+<?php path('layout/sidebar'); ;?>
 <?php use blog\functions\CSRF;?>
 <div class="container mt-3 rounded-3" style="max-width: 800px; background: #f8f9fa">
   <div class="row">
@@ -22,3 +23,4 @@
 </div>
 
 <script src="<?php assets('js/bootstrap.bundle.min.js'); ?>"></script>
+<script src="<?php assets('js/dark-mode.js'); ?>"></script>

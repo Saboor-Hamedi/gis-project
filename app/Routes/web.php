@@ -24,25 +24,20 @@ $router->put('/posts/edit', PostController::class, 'update')->middleware([new Mi
 $router->post('/posts/store', PostController::class, 'store')->name('posts.store');
 $router->delete('/posts/delete/{id}', PostController::class, 'destroy')->middleware([new Middleware(), 'requireLoggedIn'])->name('posts.delete');
 // Login routes
-$router->get('/login/login', LoginController::class, 'index')->middleware([new Middleware(), 'preventBackWhenLoggedIn'])
-       ->name('login.index');
-$router->post('/login/login', LoginController::class, 'login')->middleware([new Middleware(), 'preventBackWhenLoggedIn'])
-       ->name('login.login');
+$router->get('/login/login', LoginController::class, 'index')->middleware([new Middleware(), 'preventBackWhenLoggedIn'])->name('login.index');
+$router->post('/login/login', LoginController::class, 'login')->middleware([new Middleware(), 'preventBackWhenLoggedIn'])->name('login.login');
 $router->post('/login/logout', LoginController::class, 'logout')
        ->name('logout');
 // ---------------Admin route
-$router->get('/dashboard/admin', AdminController::class, 'index')->middleware([new Middleware(), 'requireLoggedIn'])
-       ->name('dashboard.admin');
-$router->get('/dashboard/show', AdminController::class, 'show')->middleware([new Middleware(), 'requireLoggedIn'])
-       ->name('dashboard.show');
+$router->get('/dashboard/admin', AdminController::class, 'index')->middleware([new Middleware(), 'requireLoggedIn'])->name('dashboard.admin');
+$router->get('/dashboard/show', AdminController::class, 'show')->middleware([new Middleware(), 'requireLoggedIn'])->name('dashboard.show');
 // ---------------Student route
-$router->get('/students/index', StudentController::class, 'index')->middleware([new Middleware(), 'requireLoggedIn'])
-       ->name('students/index');
-$router->get('/students/show', StudentController::class, 'show')->middleware([new Middleware(), 'requireLoggedIn'])
-       ->name('students/show');
+$router->get('/students/index', StudentController::class, 'index')->middleware([new Middleware(), 'requireLoggedIn'])->name('students.index');
+$router->get('/students/show', StudentController::class, 'show')->middleware([new Middleware(), 'requireLoggedIn'])->name('students.show');
 $router->get('/students/create', StudentController::class, 'create')->middleware([new Middleware(), 'requireLoggedIn'])->name('students.create');
 $router->post('/students/store', StudentController::class, 'store')->middleware([new Middleware(), 'requireLoggedIn'])->name('students.store');
-
+$router->delete('/students/destroy/{id}', StudentController::class, 'destroy')->middleware([new Middleware(), 'requireLoggedIn'])->name('students.destroy');
+// ---------------end
 $app = new App($router);
 Routes::run($app);
 

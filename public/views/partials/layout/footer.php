@@ -1,16 +1,22 @@
 </main>
-<footer class="bd-footer py-4 py-md-5 mt-5 bg-body-tertiary">
-  <div class="container py-4 py-md-5 px-4 px-md-3 text-body-secondary">
+<footer class="bd-footer py-4 py-md-5 mt-5 ">
+  <div class="container py-4 py-md-5 px-4 px-md-3">
     <div class="row">
       <div class="col-lg-3 mb-3">
 
-        <a href="/" class="d-inline-flex align-items-center mb-2 text-body-emphasis  text-decoration-none" aria-label="Bootstrap">
-          <img src="<?php  images("images/logo.png"); ?>" width="32" height="32" class="d-block me-2" viewBox="0 0 118 94" role="img">
+        <a href="/" class="d-inline-flex align-items-center mb-2 text-body-emphasis  text-decoration-none"
+          aria-label="Bootstrap">
+          <img src="<?php images("images/logo.png"); ?>" width="32" height="32" class="d-block me-2"
+            viewBox="0 0 118 94" role="img">
           <span class="fs-5">GIS</span>
         </a>
         <ul class="list-unstyled small">
-          <li class="mb-2">Designed and built with all the love in the world by the <a href="/docs/5.3/about/team/">Bootstrap team</a> with the help of <a href="https://github.com/twbs/bootstrap/graphs/contributors">our contributors</a>.</li>
-          <li class="mb-2">Code licensed <a href="https://github.com/twbs/bootstrap/blob/main/LICENSE" target="_blank" rel="license noopener">MIT</a>, docs <a href="https://creativecommons.org/licenses/by/3.0/" target="_blank" rel="license noopener">CC BY 3.0</a>.</li>
+          <li class="mb-2">Designed and built with all the love in the world by the <a
+              href="/docs/5.3/about/team/">Bootstrap team</a> with the help of <a
+              href="https://github.com/twbs/bootstrap/graphs/contributors">our contributors</a>.</li>
+          <li class="mb-2">Code licensed <a href="https://github.com/twbs/bootstrap/blob/main/LICENSE" target="_blank"
+              rel="license noopener">MIT</a>, docs <a href="https://creativecommons.org/licenses/by/3.0/"
+              target="_blank" rel="license noopener">CC BY 3.0</a>.</li>
           <li class="mb-2">Currently v5.3.3.</li>
         </ul>
       </div>
@@ -23,7 +29,8 @@
           <li class="mb-2"><a href="https://icons.getbootstrap.com/">Icons</a></li>
           <li class="mb-2"><a href="https://themes.getbootstrap.com/">Themes</a></li>
           <li class="mb-2"><a href="https://blog.getbootstrap.com/">Blog</a></li>
-          <li class="mb-2"><a href="https://cottonbureau.com/people/bootstrap" target="_blank" rel="noopener">Swag Store</a></li>
+          <li class="mb-2"><a href="https://cottonbureau.com/people/bootstrap" target="_blank" rel="noopener">Swag
+              Store</a></li>
         </ul>
       </div>
       <div class="col-6 col-lg-2 mb-3">
@@ -39,29 +46,37 @@
       <div class="col-6 col-lg-2 mb-3">
         <h5>Projects</h5>
         <ul class="list-unstyled">
-          <li class="mb-2"><a href="https://github.com/twbs/bootstrap" target="_blank" rel="noopener">Bootstrap 5</a></li>
-          <li class="mb-2"><a href="https://github.com/twbs/bootstrap/tree/v4-dev" target="_blank" rel="noopener">Bootstrap 4</a></li>
+          <li class="mb-2"><a href="https://github.com/twbs/bootstrap" target="_blank" rel="noopener">Bootstrap 5</a>
+          </li>
+          <li class="mb-2"><a href="https://github.com/twbs/bootstrap/tree/v4-dev" target="_blank"
+              rel="noopener">Bootstrap 4</a></li>
           <li class="mb-2"><a href="https://github.com/twbs/icons" target="_blank" rel="noopener">Icons</a></li>
           <li class="mb-2"><a href="https://github.com/twbs/rfs" target="_blank" rel="noopener">RFS</a></li>
-          <li class="mb-2"><a href="https://github.com/twbs/examples/" target="_blank" rel="noopener">Examples repo</a></li>
+          <li class="mb-2"><a href="https://github.com/twbs/examples/" target="_blank" rel="noopener">Examples repo</a>
+          </li>
         </ul>
       </div>
       <div class="col-6 col-lg-2 mb-3">
         <h5>Community</h5>
         <ul class="list-unstyled">
-          <li class="mb-2"><a href="https://github.com/twbs/bootstrap/issues" target="_blank" rel="noopener">Issues</a></li>
-          <li class="mb-2"><a href="https://github.com/twbs/bootstrap/discussions" target="_blank" rel="noopener">Discussions</a></li>
-          <li class="mb-2"><a href="https://github.com/sponsors/twbs" target="_blank" rel="noopener">Corporate sponsors</a></li>
-          <li class="mb-2"><a href="https://opencollective.com/bootstrap" target="_blank" rel="noopener">Open Collective</a></li>
-          <li class="mb-2"><a href="https://stackoverflow.com/questions/tagged/bootstrap-5" target="_blank" rel="noopener">Stack Overflow</a></li>
+          <li class="mb-2"><a href="https://github.com/twbs/bootstrap/issues" target="_blank" rel="noopener">Issues</a>
+          </li>
+          <li class="mb-2"><a href="https://github.com/twbs/bootstrap/discussions" target="_blank"
+              rel="noopener">Discussions</a></li>
+          <li class="mb-2"><a href="https://github.com/sponsors/twbs" target="_blank" rel="noopener">Corporate
+              sponsors</a></li>
+          <li class="mb-2"><a href="https://opencollective.com/bootstrap" target="_blank" rel="noopener">Open
+              Collective</a></li>
+          <li class="mb-2"><a href="https://stackoverflow.com/questions/tagged/bootstrap-5" target="_blank"
+              rel="noopener">Stack Overflow</a></li>
         </ul>
       </div>
     </div>
   </div>
 </footer>
-<script src="<?php  assets('js/bootstrap.bundle.min.js'); ?>">
-</script>
-
+<script src="<?php assets('js/bootstrap.bundle.min.js'); ?>"></script>
+<script src="<?php assets('js/dark-mode.js'); ?>"></script>
+<script src="<?php assets('js/side-bar.js'); ?>"></script>
 </body>
 
 </html>
