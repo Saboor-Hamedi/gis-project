@@ -35,7 +35,7 @@ We welcome contributions in various areas, including but not limited to:
 
 Please adhere to our [Code of Conduct](./CODE_OF_CONDUCT.md) to ensure a respectful and inclusive environment for all contributors.
 ### Contact me
-Facebook: [https://www.facebook.com/saboor.hamedi.7/](Saboor Hamedi)
+Facebook: [Saboor Hamedi](https://www.facebook.com/saboor.hamedi.7/)
 
 Thank you for your interest in contributing to our MVC project! We look forward to your valuable contributions.
 
