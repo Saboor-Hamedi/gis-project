@@ -19,10 +19,13 @@ use Illuminate\Support\Str;
     </thead>
     <tbody>
       <tr>
+        
+        <?php if (!empty($users)):?>
         <?php foreach ($users as $user): ?>
           <td><?php echo $user['username'] ?></td>
           <td><?php echo $user['email'] ?></td>
         <?php endforeach; ?>
+        <?php endif;?>
       </tr>
     </tbody>
   </table>
@@ -43,7 +46,7 @@ use Illuminate\Support\Str;
               <a href="<?php url("/students/create"); ?>" class="btn btn-sm btn-primary">Create</a>
               <div class="d-flex">
                 <a href="/students/show/<?php echo $post['id']; ?>" class="btn btn-sm btn-outline-secondary me-2">Read</a>
-                <a href="/students/update/<?php echo $post['id']; ?>"
+                <a href="<?php url('/students/update/' . $post['id'])?>"
                   class="btn btn-sm btn-outline-secondary me-2">Edit</a>
                 <form action="<?php url('/students/destroy/' . $post['id']); ?>" method="POST" style="display:inline;">
                   <?php CSRF::generate(); ?>
@@ -58,9 +61,6 @@ use Illuminate\Support\Str;
     <?php endforeach; ?>
   </div>
 </div>
-
 <!-- end -->
 </div>
-<script src="<?php assets('js/bootstrap.bundle.min.js'); ?>"></script>
-<script src="<?php assets('js/dark-mode.js'); ?>"></script>
-<script src="<?php assets('js/side-bar.js'); ?>"></script>
+<?php path('layout/links'); ?>

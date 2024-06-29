@@ -49,7 +49,7 @@ class App
       $routeMatch = $this->router->match($httpMethod, $uri);
 
       if ($routeMatch === null) {
-        $this->sendResponse(self::NOT_FOUND, 'Route not found');
+        $this->sendResponse(self::NOT_FOUND, 'Route not found, or check the folder name');
       }
 
       // Execute middlewares
@@ -63,7 +63,7 @@ class App
         $this->executeControllerAction($routeMatch['routeInfo'], ...($routeMatch['params'] ?? []));
       }
     } catch (\Exception $e) {
-      echo 'Semthing went wrong on route' . $e->getMessage();
+      echo 'Semthing went wrong on route: ' . $e->getMessage();
 
     }
   }

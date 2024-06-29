@@ -40,12 +40,12 @@ use Illuminate\Support\Str;
         <div class="post__footer">
           <div class="mt-auto">
             <div class="d-flex justify-content-between align-items-center">
-              <a href="<?php url("/students/create"); ?>" class="btn btn-sm btn-primary">Create</a>
+              <a href="<?php url("/dashboard/create"); ?>" class="btn btn-sm btn-primary">Create</a>
               <div class="d-flex">
-                <a href="/students/show/<?php echo $post['id']; ?>" class="btn btn-sm btn-outline-secondary me-2">Read</a>
-                <a href="/students/update/<?php echo $post['id']; ?>"
+                <a href="/dashboard/show/<?php echo $post['id']; ?>" class="btn btn-sm btn-outline-secondary me-2">Read</a>
+                <a href="/dashboard/update/<?php echo $post['id']; ?>"
                   class="btn btn-sm btn-outline-secondary me-2">Edit</a>
-                <form action="<?php url('/students/destroy/' . $post['id']); ?>" method="POST" style="display:inline;">
+                <form action="<?php url('/dashboard/destroy/' . $post['id']); ?>" method="POST" style="display:inline;">
                   <?php CSRF::generate(); ?>
                   <input type="hidden" name="_method" value="DELETE">
                   <button type="submit" class="btn btn-sm btn-outline-danger">Delete</button>
@@ -60,6 +60,4 @@ use Illuminate\Support\Str;
 </div>
 <!-- end -->
 </body>
-<script src="<?php assets('js/bootstrap.bundle.min.js'); ?>"></script>
-<script src="<?php assets('js/dark-mode.js'); ?>"></script>
-<script src="<?php assets('js/side-bar.js'); ?>"></script>
+<?php path('layout/links'); ?>

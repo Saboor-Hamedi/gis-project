@@ -25,7 +25,7 @@
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 15px;
-  background-color: var(--default-bg);
+  /* background-color: var(--default-bg); */
   padding: var(--medium-padding);
 }
 .post__content {

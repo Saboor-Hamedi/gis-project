@@ -16,6 +16,11 @@ class Auth
   {
     return $this->session->get('user_id');
   }
+  public function username(){
+    if($this->session->has('username')){
+    return $this->session->get('username');
+    }
+  }
 
   public function check()
   {

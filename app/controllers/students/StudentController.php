@@ -12,6 +12,7 @@ use blog\services\auth\Middleware;
 use blog\services\Html\InputUtilized;
 use blog\services\Html\Validation;
 use blog\services\Message;
+use blog\services\ResponseCode;
 
 
 class StudentController extends Controller
@@ -24,29 +25,67 @@ class StudentController extends Controller
   protected $studentModel;
   protected $postModel;
   protected $validate;
+  use ResponseCode;
   public function __construct()
   {
-    $this->studentModel = new LoginModel();
-
-    $this->middleware = new Middleware();
-    $this->middleware->requireLoggedIn();
     $this->auth = new Auth();
-    $this->message = new Message();
+    $this->middleware = new Middleware();
+    $this->studentModel = new LoginModel();
     $this->postModel = new PostModel();
-    $this->middleware->requireRoles([1]); // Only student (role 0) can access
+    $this->message = new Message();
     $this->validate = new Validation();
+
+    $this->middleware->requireLoggedIn();
+    $this->middleware->requireRoles([1]); // Only student (role 0) can access
   }
   public function index()
   {
     $id = $this->auth->userId();
     $users = $this->studentModel->find(['id' => $id]);
-    $posts = $this->postModel->where(['user_id' => $id]);
+    $id = ['user_id' => $id];
+    $limit = 10;
+    $offset = 0;
 
+    $posts = $this->postModel->where($id, $limit, $offset, 'created_at', 'DESC');
     $this->views('/students/index', ['users' => $users, 'posts' => $posts]);
   }
-  public function show()
+  public function show($id)
   {
-    $this->views('/students/show');
+    $post = $this->postModel->find(['id' => $id]);
+    $this->views('/students/show', ['post' => $post]);
+  }
+  public function update($id)
+  {
+    $post = $this->postModel->find(['id' => $id]);
+    $this->views('/students/update', ['post' => $post]);
+  }
+  public function edit()
+  {
+
+
+    $errors = $this->postModel->input($this->validate);
+    if (!empty($errors)) {
+      $this->views('/students/update', ['errors' => $errors]);
+      return;
+    }
+    $title = InputUtilized::sanitizeInput($_POST['title'], 'string');
+    $content = InputUtilized::sanitizeInput($_POST['content'], 'string');
+    $id = InputUtilized::sanitizeInput($_POST['id'], 'int');
+
+    $data = [
+      'title' => $title,
+      'content' => $content
+    ];
+    $condition = [
+      'id' => $id
+    ];
+
+    $results = $this->postModel->update($data, $condition);
+    if (!$results) {
+      return false;
+    }
+    $this->message->messageWithRoute('/students/index', 'Post created successfully', 'success');
+
   }
   public function create()
   {

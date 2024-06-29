@@ -3,9 +3,10 @@
 <?php use blog\functions\CSRF; ?>
 
 <div class="table__card">
+
   <div class="row">
     <div class="col-md-12">
-      <form action="<?php url('/students/store'); ?>" method="POST">
+      <form action="<?php url('/dashboard/store'); ?>" method="POST">
         <?php CSRF::generate(); ?>
         <div class="mb-3">
           <label for="title" class="form-label">Title</label>
@@ -24,5 +25,4 @@
     </div>
   </div>
 </div>
-
 <?php path('layout/links'); ?>

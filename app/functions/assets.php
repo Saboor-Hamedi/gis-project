@@ -34,4 +34,7 @@ function error($errors, $field)
     echo '<small class="error">' . htmlspecialchars($errors[$field]) . '</small>';
   }
 }
+function upper($text = null){
+  return ucfirst($text);
+}
 

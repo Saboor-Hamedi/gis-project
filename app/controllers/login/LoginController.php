@@ -50,6 +50,7 @@ class LoginController extends Controller
     if ($this->authenticate($email, $password)) {
       $user = $this->loginModel->findBy('email', $email);
       $this->session->set('user_id', $user['id']); // store  user_id
+     $this->session->set('username', $user['username']); // store name
       $roles = $this->session->set('roles', $user['roles']);
       if(!empty($roles)) {
         $this->session->destroy();

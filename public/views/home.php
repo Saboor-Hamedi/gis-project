@@ -42,5 +42,5 @@ path('layout/frontPage');
   </div>
 
 </div>
-
+<?php path('layout/links'); ?>
 <?php path('layout/footer'); ?>

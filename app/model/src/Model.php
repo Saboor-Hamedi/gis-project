@@ -49,48 +49,47 @@ class Model
   public function find($condition)
   {
     $result = $this->db->find($this->table, $condition);
-    $filter = $this->filterData($result, $this->fillable);
-
-    // Ensure the filtered result is always returned as an array
-    if (is_array($filter) || is_object($filter)) {
+    if ($result) {
+      $filter = $this->filterData($result, $this->fillable);
+      // Ensure the result is processed as needed, possibly filtering or manipulating it
       return [$filter];
     }
-
-    return [];
+    return null; // or an empty array/object as appropriate
   }
- public function where(array $conditions, ?int $limit = null, int $offset = 0, ?string $orderBy = null, string $orderDirection = 'ASC')
-{
+
+  public function where(array $conditions, ?int $limit = null, int $offset = 0, ?string $orderBy = null, string $orderDirection = 'ASC')
+  {
     $columns = implode(', ', $this->fillable);
     $whereClause = [];
     $params = [];
 
     foreach ($conditions as $key => $value) {
-        if (is_array($value)) {
-            $inValues = implode(',', array_fill(0, count($value), '?'));
-            $whereClause[] = "$key IN ($inValues)";
-            $params = array_merge($params, $value);
-        } else {
-            $whereClause[] = "$key = :$key";
-            $params[":$key"] = $value;
-        }
+      if (is_array($value)) {
+        $inValues = implode(',', array_fill(0, count($value), '?'));
+        $whereClause[] = "$key IN ($inValues)";
+        $params = array_merge($params, $value);
+      } else {
+        $whereClause[] = "$key = :$key";
+        $params[":$key"] = $value;
+      }
     }
 
     $whereClause = implode(' AND ', $whereClause);
     $sql = "SELECT {$columns} FROM {$this->table} WHERE {$whereClause}";
 
     if ($orderBy !== null) {
-        $sql .= " ORDER BY {$orderBy} {$orderDirection}";
+      $sql .= " ORDER BY {$orderBy} {$orderDirection}";
     }
 
     if ($limit !== null) {
-        $sql .= " LIMIT {$limit} OFFSET {$offset}";
+      $sql .= " LIMIT {$limit} OFFSET {$offset}";
     }
 
     // Debugging output
     //var_dump($sql, $params);
 
     return $this->db->all($sql, $params);
-}
+  }
 
 
 

@@ -23,9 +23,9 @@ class Database
     $env->load();
     $this->dsn = "mysql:host=" . $_ENV['DB_HOST'] . ";port=" . $_ENV['DB_PORT'] . ";dbname=" . $_ENV['DB_DATABASE'];
     $this->options = [
-      PDO::ATTR_ERRMODE            => PDO::ERRMODE_EXCEPTION,
+      PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
       PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
-      PDO::ATTR_EMULATE_PREPARES   => false,
+      PDO::ATTR_EMULATE_PREPARES => false,
     ];
     try {
       $this->pdo = new PDO($this->dsn, $_ENV['DB_USERNAME'], $_ENV['DB_PASSWORD'], $this->options);
@@ -105,7 +105,7 @@ class Database
 
   public function insert($table, $data)
   {
-    $columns  = implode(', ', array_keys($data));
+    $columns = implode(', ', array_keys($data));
     $placeholders = implode(', ', array_map(function ($key) {
       return ":" . $key;
     }, array_keys($data)));

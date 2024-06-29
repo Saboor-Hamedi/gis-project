@@ -23,7 +23,7 @@
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
         <?php if ($auth->check() && $auth->hasRoles([0])): ?>
           <li class="nav-item">
-            <a class="nav-link active" aria-current="page" href="<?php url('/posts/create'); ?>">Create</a>
+            <a class="nav-link active" aria-current="page" href="<?php url('/dashboard/create'); ?>">Create</a>
           </li>
         <?php elseif ($auth->check() && $auth->hasRoles([1])): ?>
           <li class="nav-item">
