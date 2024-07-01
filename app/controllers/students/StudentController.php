@@ -1,12 +1,11 @@
 <?php
+
 namespace blog\controllers\students;
 
 
 use blog\controllers\Controller;
-use blog\functions\CSRF;
 use blog\model\LoginModel;
 use blog\model\PostModel;
-use blog\model\student\StudentsModel;
 use blog\services\auth\Auth;
 use blog\services\auth\Middleware;
 use blog\services\Html\InputUtilized;
@@ -51,17 +50,32 @@ class StudentController extends Controller
   }
   public function show($id)
   {
+    $id = InputUtilized::sanitizeInput($id, 'flot');
     $post = $this->postModel->find(['id' => $id]);
+    // check if post id not found
+    if (!$post) {
+      return $this->sendResponse(self::NOT_FOUND, 'Post not found');
+    }
+
     $this->views('/students/show', ['post' => $post]);
   }
   public function update($id)
   {
+    $id = InputUtilized::sanitizeInput($id, 'flot');
+    $post = $this->postModel->find(['id' => $id]);
+    // check if post id not found
+    if (!$post) {
+      return $this->sendResponse(self::NOT_FOUND, 'Post not found');
+    }
+    // check if current post belongs to the current user_id 
+    if (!$this->auth->isAuthorized($post[0]['user_id'])) {
+      return $this->sendResponse(self::NOT_FOUND, 'Unauthorized post');
+    }
     $post = $this->postModel->find(['id' => $id]);
     $this->views('/students/update', ['post' => $post]);
   }
   public function edit()
   {
-
 
     $errors = $this->postModel->input($this->validate);
     if (!empty($errors)) {
@@ -85,7 +99,6 @@ class StudentController extends Controller
       return false;
     }
     $this->message->messageWithRoute('/students/index', 'Post created successfully', 'success');
-
   }
   public function create()
   {
@@ -95,7 +108,6 @@ class StudentController extends Controller
   {
     // --------- validate inputs, it somes from PostModel
     $errors = $this->postModel->input($this->validate);
-
     if (!empty($errors)) {
       // Handle errors (e.g., redirect back with errors or display error messages)
       $this->views('/students/create', ['errors' => $errors]);
@@ -119,10 +131,15 @@ class StudentController extends Controller
   }
   public function destroy($id)
   {
+    $id = InputUtilized::sanitizeInput($id, 'int');
+    $post = $this->postModel->find(['id' => $id]);
+    // check if current post belongs to the current user_id 
+    if (!$this->auth->isAuthorized($post[0]['user_id'])) {
+      return $this->sendResponse(self::NOT_FOUND, 'Unauthorized post');
+    }
     $delete = $this->postModel->delete(['id' => $id]);
     if ($delete) {
       $this->message->messageWithRoute('/students/index', 'Post deleted successfully', 'success');
-
     }
   }
 }

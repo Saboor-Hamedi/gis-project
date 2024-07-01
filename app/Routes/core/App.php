@@ -37,36 +37,51 @@ class App
   {
     return parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH) ?: '';
   }
-
+  /**
+   * Handle the HTTP request.
+   */
+  public function handleRequestData()
+  {
+    $httpMethod = $this->getRequestMethod();
+    $uri = $this->getRequestUri();
+    $this->handleRequest($httpMethod, $uri);
+  }
   /**
    * Run the application.
    */
   public function run(): void
   {
     try {
-      $httpMethod = $this->getRequestMethod();
-      $uri = $this->getRequestUri();
-      $routeMatch = $this->router->match($httpMethod, $uri);
-
-      if ($routeMatch === null) {
-        $this->sendResponse(self::NOT_FOUND, 'Route not found, or check the folder name');
-      }
-
-      // Execute middlewares
-      if (isset($routeMatch['middlewares'])) {
-        foreach ($routeMatch['middlewares'] as $middleware) {
-          call_user_func($middleware);
-        }
-      }
-
-      if (isset($routeMatch['routeInfo']) && is_array($routeMatch['routeInfo'])) {
-        $this->executeControllerAction($routeMatch['routeInfo'], ...($routeMatch['params'] ?? []));
-      }
+      $this->handleRequestData();
     } catch (\Exception $e) {
       echo 'Semthing went wrong on route: ' . $e->getMessage();
-
     }
   }
+
+  /**
+   * Handle the request based on the HTTP method and URI.
+   */
+  protected function handleRequest(string $httpMethod, string $uri): void
+  {
+
+    $routeMatch = $this->router->match($httpMethod, $uri);
+
+    if ($routeMatch === null) {
+      $this->sendResponse(self::NOT_FOUND, 'Route not found, or check the folder name');
+    }
+
+    // Execute middlewares
+    if (isset($routeMatch['middlewares'])) {
+      foreach ($routeMatch['middlewares'] as $middleware) {
+        call_user_func($middleware);
+      }
+    }
+
+    if (isset($routeMatch['routeInfo']) && is_array($routeMatch['routeInfo'])) {
+      $this->executeControllerAction($routeMatch['routeInfo'], ...($routeMatch['params'] ?? []));
+    }
+  }
+
 
   /**
    * Execute the controller action.
@@ -76,7 +91,7 @@ class App
     if ($routeInfo['isClosure']) {
       $controller = $routeInfo['controller'];
       if ($controller instanceof \Closure) {
-        $controller = $controller->bindTo(new \blog\controllers\Controller(), \blog\controllers\Controller::class);
+        $controller = $controller->bindTo(new Controller(), Controller::class);
       }
       $output = call_user_func_array($controller, $args);
       if (is_string($output)) {

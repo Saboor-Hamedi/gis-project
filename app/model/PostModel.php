@@ -17,6 +17,15 @@ class PostModel extends Model
   {
     parent::__construct($this->table);
   }
+
+  public function findOrFailed(array $condition): ?array
+  {
+    $result = $this->db->find($this->table, $condition);
+    if ($result) {
+      return $result[0] ?? null; // Assuming find method returns an array of results
+    }
+    return null;
+  }
   public function singlePostWithUser($id)
   {
     $sql = "

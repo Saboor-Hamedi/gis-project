@@ -10,6 +10,7 @@ use blog\services\auth\Middleware;
 use blog\services\Html\InputUtilized;
 use blog\services\Html\Validation;
 use blog\services\Message;
+use blog\services\ResponseCode;
 
 class AdminController extends Controller
 {
@@ -19,6 +20,7 @@ class AdminController extends Controller
   protected $userPost;
   protected $validate;
   protected $message;
+  use ResponseCode;
 
   public function __construct()
   {
@@ -33,22 +35,37 @@ class AdminController extends Controller
   }
   public function index()
   {
-
     $id = $this->auth->userId();
     $users = $this->userPost->find(['id' => $id]);
     $posts = $this->postModel->where(['user_id' => $id]);
-
     $this->views('/dashboard/admin', ['users' => $users, 'posts' => $posts]);;
   }
   public function show($id)
   {
+    $id = InputUtilized::sanitizeInput($id, 'float');
     $post = $this->postModel->find(['id' => $id]);
-
+    // check if post id not found 
+    if (!$post) {
+      return $this->sendResponse(self::NOT_FOUND, 'Post not found');
+    }
+    // check if current post belongs to the current user_id 
+    if (!$this->auth->isAuthorized($post[0]['user_id'])) {
+      return $this->sendResponse(self::FORBIDDEN, 'Unauthorizedt post');
+    }
     $this->views('/dashboard/show', ['post' => $post]);
   }
   public function update($id)
   {
+    $id = InputUtilized::sanitizeInput($id, 'float');
     $post = $this->postModel->find(['id' => $id]);
+
+    if (!$post) {
+      return $this->sendResponse(self::NOT_FOUND, 'Post not found');
+    }
+    // Check if post belongs to the current user
+    if (!$this->auth->isAuthorized($post[0]['user_id'])) {
+      return $this->sendResponse(self::FORBIDDEN, 'You are not authorized to edit');
+    }
     $this->views('/dashboard/update', ['post' => $post]);
   }
   public function edit()
@@ -70,6 +87,7 @@ class AdminController extends Controller
     $condition = [
       'id' => $id
     ];
+
 
     $results = $this->postModel->update($data, $condition);
     if (!$results) {
@@ -109,6 +127,13 @@ class AdminController extends Controller
   }
   public function destroy($id)
   {
+    // Check if post belongs to the current user
+    $id = InputUtilized::sanitizeInput($id, 'float');
+    $post = $this->postModel->find(['id' => $id]);
+    if (!$this->auth->isAuthorized($post[0]['user_id'])) {
+      return $this->sendResponse(self::FORBIDDEN, 'You are not authorized to edit');
+    }
+    // Delete post
     $delete = $this->postModel->delete(['id' => $id]);
     if ($delete) {
       $this->message->messageWithRoute('/dashboard/admin', 'Post deleted successfully', 'success');

@@ -42,7 +42,7 @@ class LoginController extends Controller
     $password = $_POST['password'] ?? '';
     $errors = $this->loginModel->input($this->validate);
     // -----------------checking----------------------
-    if(!empty($errors)) {
+    if (!empty($errors)) {
       $this->views('/login/login', ['errors' => $errors]);
       return;
     }
@@ -50,11 +50,11 @@ class LoginController extends Controller
     if ($this->authenticate($email, $password)) {
       $user = $this->loginModel->findBy('email', $email);
       $this->session->set('user_id', $user['id']); // store  user_id
-     $this->session->set('username', $user['username']); // store name
+      $this->session->set('username', $user['username']); // store name
       $roles = $this->session->set('roles', $user['roles']);
-      if(!empty($roles)) {
+      if (!empty($roles)) {
         $this->session->destroy();
-      }else{
+      } else {
         // $this->redirect('/dashboard/admin');
         $this->routeBasedOnRole();
       }
@@ -74,6 +74,6 @@ class LoginController extends Controller
   public function logout()
   {
     $this->session->destroy();
-    $this->redirect('/login/login');
+    $this->redirect('/');
   }
 }

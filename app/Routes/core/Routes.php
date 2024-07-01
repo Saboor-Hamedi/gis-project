@@ -1,8 +1,8 @@
 <?php
-declare(strict_types=1);
-namespace blog\Routes\core;
 
-use blog\controllers\Controller;
+declare(strict_types=1);
+
+namespace blog\Routes\core;
 
 class Routes
 {
@@ -41,14 +41,10 @@ class Routes
         $this->middlewares[] = $middleware;
         $this->router->middlewares[$this->uri] = $this->middlewares;
         return $this;
-
     }
 
     public static function run(App $app): void
     {
         $app->run();
-
     }
-
-    
 }
