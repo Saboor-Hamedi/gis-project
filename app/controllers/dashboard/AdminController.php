@@ -1,4 +1,5 @@
 <?php
+
 namespace blog\controllers\dashboard;
 
 use blog\controllers\Controller;
@@ -37,8 +38,7 @@ class AdminController extends Controller
     $users = $this->userPost->find(['id' => $id]);
     $posts = $this->postModel->where(['user_id' => $id]);
 
-    $this->views('/dashboard/admin', ['users' => $users, 'posts' => $posts]);
-    ;
+    $this->views('/dashboard/admin', ['users' => $users, 'posts' => $posts]);;
   }
   public function show($id)
   {
@@ -76,7 +76,6 @@ class AdminController extends Controller
       return false;
     }
     $this->message->messageWithRoute('/dashboard/admin', 'Post created successfully', 'success');
-
   }
   public function create()
   {
@@ -113,7 +112,6 @@ class AdminController extends Controller
     $delete = $this->postModel->delete(['id' => $id]);
     if ($delete) {
       $this->message->messageWithRoute('/dashboard/admin', 'Post deleted successfully', 'success');
-
     }
   }
 }

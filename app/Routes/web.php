@@ -1,12 +1,10 @@
 <?php
-declare(strict_types=1);
-// 
 
-use blog\controllers\Controller;
+declare(strict_types=1);
+
 use blog\controllers\dashboard\AdminController;
 use blog\controllers\HomeController;
 use blog\controllers\login\LoginController;
-use blog\controllers\posts\PostController;
 use blog\controllers\students\StudentController;
 use blog\Routes\core\App;
 use blog\Routes\core\Router;
@@ -16,13 +14,7 @@ use blog\services\auth\Middleware;
 $router = new Router();
 // --------------- Post
 $router->get('/', HomeController::class, 'index')->name('home');
-$router->get('/posts/index', PostController::class, 'index')->name('posts.index');
-$router->get('/posts/show/{id}', PostController::class, 'show')->name('posts.show');
-$router->get('/posts/create', PostController::class, 'create')->middleware([new Middleware(), 'requireLoggedIn'])->name('posts.create');
-$router->get('/posts/update/{id}', PostController::class, 'edit')->middleware([new Middleware(), 'requireLoggedIn'])->name('posts.edit');// show data
-$router->put('/posts/edit', PostController::class, 'update')->middleware([new Middleware(), 'requireLoggedIn'])->name('posts.update');// update data
-$router->post('/posts/store', PostController::class, 'store')->name('posts.store');
-$router->delete('/posts/delete/{id}', PostController::class, 'destroy')->middleware([new Middleware(), 'requireLoggedIn'])->name('posts.delete');
+$router->get('/posts/show/{id}', HomeController::class, 'show')->name('posts.show');
 // ---------------Login routes
 $router->get('/login/login', LoginController::class, 'index')->middleware([new Middleware(), 'preventBackWhenLoggedIn'])->name('login.index');
 $router->post('/login/login', LoginController::class, 'login')->middleware([new Middleware(), 'preventBackWhenLoggedIn'])->name('login.login');
@@ -30,8 +22,8 @@ $router->post('/login/logout', LoginController::class, 'logout')->name('logout')
 // ---------------Admin route
 $router->get('/dashboard/admin', AdminController::class, 'index')->middleware([new Middleware(), 'requireLoggedIn'])->name('dashboard.admin');
 $router->get('/dashboard/show/{id}', AdminController::class, 'show')->middleware([new Middleware(), 'requireLoggedIn'])->name('dashboard.show');
-$router->get('/dashboard/update/{id}', AdminController::class,'update')->middleware([new Middleware(), 'requireLoggedIn'])->name('dashboard.update');
-$router->put('/dashboard/edit', AdminController::class,'edit')->middleware([new Middleware(), 'requireLoggedIn'])->name('dashboard.edit');
+$router->get('/dashboard/update/{id}', AdminController::class, 'update')->middleware([new Middleware(), 'requireLoggedIn'])->name('dashboard.update');
+$router->put('/dashboard/edit', AdminController::class, 'edit')->middleware([new Middleware(), 'requireLoggedIn'])->name('dashboard.edit');
 $router->get('/dashboard/create', AdminController::class, 'create')->middleware([new Middleware(), 'requireLoggedIn'])->name('dashboard.create');
 $router->post('/dashboard/store', AdminController::class, 'store')->middleware([new Middleware(), 'requireLoggedIn'])->name('dashboard.store');
 $router->delete('/dashboard/destroy/{id}', AdminController::class, 'destroy')->middleware([new Middleware(), 'requireLoggedIn'])->name('dashboard.destroy');
@@ -46,4 +38,3 @@ $router->delete('/students/destroy/{id}', StudentController::class, 'destroy')->
 // ---------------end
 $app = new App($router);
 Routes::run($app);
-

@@ -1,4 +1,5 @@
 <?php
+
 namespace blog\services\auth;
 
 use blog\services\Session;
@@ -16,9 +17,10 @@ class Auth
   {
     return $this->session->get('user_id');
   }
-  public function username(){
-    if($this->session->has('username')){
-    return $this->session->get('username');
+  public function username()
+  {
+    if ($this->session->has('username')) {
+      return $this->session->get('username');
     }
   }
 
@@ -26,10 +28,12 @@ class Auth
   {
     return $this->session->has('user_id');
   }
-  public function userRoles(){
+  public function userRoles()
+  {
     return $this->session->get('roles');
   }
-  public function hasRoles(array $roles){
+  public function hasRoles(array $roles)
+  {
     $currentUserRoles = $this->userRoles();
     return in_array($currentUserRoles, $roles);
   }

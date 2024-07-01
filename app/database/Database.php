@@ -67,12 +67,14 @@ class Database
     $stmt = $this->executeStatement($statement, $data);
     if ($stmt) {
       $result = $stmt->fetch();
-      array_walk_recursive($result, function (&$item) {
-        if (is_null($item)) {
-          $item = ''; // or any default value you prefer
-        }
-      });
-      return $result;
+      if ($result && is_array($result)) {
+        array_walk_recursive($result, function (&$item) {
+          if (is_null($item)) {
+            $item = ''; // or any default value you prefer
+          }
+        });
+        return $result;
+      }
     }
     return null;
   }

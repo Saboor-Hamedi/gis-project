@@ -38,7 +38,6 @@ class Model
   {
     $sql = "SELECT * FROM {$this->table} LIMIT 1";
     return $this->db->single($sql);
-
   }
   public function create($data)
   {

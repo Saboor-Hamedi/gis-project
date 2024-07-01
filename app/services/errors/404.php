@@ -14,14 +14,16 @@
 
     .message {
       font-size: 2em;
-      margin-top: 50px; /* Adjusted margin-top for better alignment */
+      margin-top: 50px;
+      /* Adjusted margin-top for better alignment */
     }
 
     .error-img {
-      width: 200px; /* Adjusted image width */
-      margin-bottom: 20px; /* Added margin-bottom for spacing */
+      width: 200px;
+      /* Adjusted image width */
+      margin-bottom: 20px;
+      /* Added margin-bottom for spacing */
     }
-
   </style>
 </head>
 

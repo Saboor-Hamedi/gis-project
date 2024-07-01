@@ -1,17 +1,62 @@
 <?php
+
 declare(strict_types=1);
+
 namespace blog\model;
 
 use blog\model\src\Model;
+use blog\services\ResponseCode;
 
 class PostModel extends Model
 {
+  use ResponseCode;
   protected $table = 'posts';
   protected $fillable = ['id', 'user_id', 'title', 'content', 'created_at'];
 
   public function __construct()
   {
     parent::__construct($this->table);
+  }
+  public function singlePostWithUser($id)
+  {
+    $sql = "
+        SELECT 
+  users.username, 
+  users.id, 
+  posts.title, 
+  posts.content, 
+  posts.created_at 
+FROM 
+  users 
+  INNER JOIN posts ON users.id = posts.user_id 
+WHERE 
+  posts.id = :id
+    ";
+    $results = $this->db->single($sql, [':id' => $id]);
+    // if (!$results) {
+    //   $this->sendResponse(self::NOT_FOUND, 'Post not found');
+    // }
+    return $results;
+  }
+
+
+  public function allWithUser(?int $limit = null, int $offset = 0, ?string $orderBy = null, string $orderDirection = 'ASC')
+  {
+    $columns = implode(', ', $this->fillable);
+    $sql = "SELECT posts.*, users.username 
+                FROM posts 
+                JOIN users ON posts.user_id = users.id";
+
+    if ($orderBy !== null) {
+      $sql .= " ORDER BY {$orderBy} {$orderDirection}";
+    }
+
+    if ($limit !== null) {
+      $sql .= " LIMIT {$limit} OFFSET {$offset}";
+    }
+
+    $results = $this->db->all($sql);
+    return $results;
   }
   public function input($validate)
   {
@@ -38,6 +83,4 @@ class PostModel extends Model
 
     return $errors;
   }
-
-
 }
