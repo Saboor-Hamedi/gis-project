@@ -1,4 +1,5 @@
 <?php
+
 namespace blog\services\Roles;
 
 use blog\services\auth\Middleware;
@@ -17,7 +18,6 @@ trait HashRoles
         $this->session = new Session();
         $this->middleware->requireLoggedIn();
         $this->routeBasedOnRole();
-
     }
     protected function routeBasedOnRole()
     {
@@ -38,5 +38,4 @@ trait HashRoles
                 break;
         }
     }
-
 }
